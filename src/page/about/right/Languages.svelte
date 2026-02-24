@@ -11,6 +11,7 @@
 <ImageBox source="img/skill/lightning_chart.png" title="LightningChart" />
 <ImageBox source="img/skill/java.png" title="Java" />
 <ImageBox source="img/skill/java_spring.png" title="Java Spring" />
+<ImageBox source="img/skill/kotlin.png" title="Kotlin" />
 <ImageBox source="img/skill/go.png" title="GO" />
 <ImageBox source="img/skill/python.png" title="Python" />
 <ImageBox source="img/skill/jupyter_notebook.png" title="J-Notebook" />

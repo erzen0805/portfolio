@@ -14,7 +14,7 @@
     <p class="contents-normal">
       시스템은 데이터를 수집하고 분석한 결과를 시각화하고 경고나 알림을 보내어 운영자들이 조치를 취할 수 있도록 합니다.
     </p>
-    <span class="contents-strong">신규프로젝트 | 8인(PM, H/W:2, S/W 디렉터, BE:2, FE:2) | S/W 파트 디렉터로 참여</span>
+    <span class="contents-strong">신규프로젝트 | 8인(PM, H/W:2, S/W PL, BE:2, FE:2) | S/W PL로 참여</span>
   </div>
   <h4 class="title">수행 업무</h4>
   <div class="content">
@@ -54,5 +54,6 @@
   font-weight: 400;
   color: rgb(213, 213, 213);
   line-height: 1.7;
+  margin-bottom: 0.5em;
 }
 </style>

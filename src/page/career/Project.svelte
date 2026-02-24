@@ -1,31 +1,64 @@
 <script>
-  import { fly, fade } from 'svelte/transition';
+  import { slide, fade } from 'svelte/transition';
 
   export let name;
   export let imgSrc;
 
-  let isImgVisible = false;
+  let selectedIdx = 0;
 
-  function toggleImg() {
-    isImgVisible = !isImgVisible;
+  function selectIdx(idx) {
+    selectedIdx = idx;
+  }
+
+  function prev() {
+    selectedIdx = (selectedIdx - 1 + imgSrc.length) % imgSrc.length;
+  }
+
+  function next() {
+    selectedIdx = (selectedIdx + 1) % imgSrc.length;
+  }
+
+  function onKeydown(e) {
+    if (!imgSrc) return;
+    if (e.key === 'ArrowLeft')   { e.preventDefault(); prev(); }
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
   }
 </script>
 
+<svelte:window on:keydown={onKeydown} />
+
 <div class="root" in:fade>
-  <h3 class="name">{name}</h3>
-  {#if !!imgSrc}
-  <button on:click={toggleImg} class="button">
-    {isImgVisible ? '관련 이미지 숨기기' : '관련 이미지 보기'}
-  </button>
-    {#if !!imgSrc && isImgVisible}
-    <div style="text-align: center; margin-top: 5px;" transition:fly>
-      {#each imgSrc as src}
-      <img src={src} alt={name}/>
-      {/each}
-    </div>
-    {/if}
-  {/if}
+  <div class="name-row">
+    <h3 class="name">{name}</h3>
+  </div>
   <slot />
+  {#if !!imgSrc}
+  <div class="thumbnails">
+    {#each imgSrc as src, i}
+    <button
+      class="thumb-btn"
+      class:active={selectedIdx === i}
+      on:click={() => selectIdx(i)}
+    >
+      <img class="thumb" src={src} alt={name} />
+    </button>
+    {/each}
+  </div>
+  <div class="full-img-wrap">
+    <div class="img-frame">
+      {#if imgSrc.length > 1}
+      <button class="nav-btn left" on:click={prev}>&#8249;</button>
+      {/if}
+      <img class="full-img" src={imgSrc[selectedIdx]} alt={name} />
+      {#if imgSrc.length > 1}
+      <button class="nav-btn right" on:click={next}>&#8250;</button>
+      {/if}
+    </div>
+    {#if imgSrc.length > 1}
+    <div class="img-counter">{selectedIdx + 1} / {imgSrc.length}</div>
+    {/if}
+  </div>
+  {/if}
 </div>
 
 <style>
@@ -36,43 +69,92 @@
   font-weight: 700;
   color: rgb(146, 146, 146);
 }
-.button {
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-	background-color:#f9f9f9;
-	border-radius:9px;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	cursor:pointer;
-	color:#666666;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:8px 50px;
-	text-decoration:none;
-	text-shadow:0px 4px 8px #ffffff;
-  display: block;
-  width: 90%;
-  margin: 0 auto;
-}
-.button:hover {
-	background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
-	background-color:#e9e9e9;
-}
-.button:active {
-	position:relative;
-	top:1px;
+.name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  gap: 12px;
 }
 .name {
   font-size: 1.8rem;
   font-weight: 700;
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
   color: rgb(184, 232, 41);
 }
-img {
+.thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 28px;
+  margin-bottom: 10px;
+}
+.thumb-btn {
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 0;
+  cursor: pointer;
+  transition: border-color 0.15s, opacity 0.15s;
+  opacity: 0.6;
+}
+.thumb-btn:hover {
+  opacity: 1;
+}
+.thumb-btn.active {
+  border-color: rgb(184, 232, 41);
+  opacity: 1;
+}
+.thumb {
+  display: block;
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.full-img-wrap {
+  text-align: center;
+  margin-bottom: 12px;
+}
+.img-frame {
+  position: relative;
+  display: inline-block;
+  width: 90%;
+}
+.full-img {
+  display: block;
+  width: 100%;
   border-radius: 10px;
-  width: 80%;
+}
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.35);
+  border: none;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.4rem;
+  width: 28px;
+  height: 48px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.nav-btn:hover {
+  background: rgba(0, 0, 0, 0.65);
+  color: white;
+}
+.nav-btn.left  { left:  8px; }
+.nav-btn.right { right: 8px; }
+.img-counter {
+  font-size: 0.8rem;
+  color: rgb(120, 120, 120);
+  margin-top: 6px;
+  text-align: center;
 }
 </style>

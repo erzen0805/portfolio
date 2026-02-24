@@ -54,5 +54,6 @@
   font-weight: 400;
   color: rgb(213, 213, 213);
   line-height: 1.7;
+  margin-bottom: 0.5em;
 }
 </style>
