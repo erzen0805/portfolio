@@ -62,11 +62,33 @@
     ]},
   ];
 
+  const allPages = groups.flatMap(g => g.projects.map(p => p.pageIndex));
+
   let viewPage = 12;
   function onChangePage(pageIndex) {
     viewPage = pageIndex;
   }
+
+  function onPrev() {
+    const idx = allPages.indexOf(viewPage);
+    if (idx > 0) viewPage = allPages[idx - 1];
+  }
+
+  function onNext() {
+    const idx = allPages.indexOf(viewPage);
+    if (idx < allPages.length - 1) viewPage = allPages[idx + 1];
+  }
+
+  $: currentIdx = allPages.indexOf(viewPage);
+
+  function onKeydown(e) {
+    if (!isInView) return;
+    if (e.key === 'ArrowUp') { e.preventDefault(); onPrev(); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); onNext(); }
+  }
 </script>
+
+<svelte:window on:keydown={onKeydown}/>
 
 <main class="container" style={stylish} use:inview={viewCondition} on:change={onViewChange}>
   <h2 style="display: none;">Career</h2>
@@ -104,6 +126,11 @@
       {/if}
     </div>
   {/if}
+  <div class="nav-buttons">
+    <button class="nav-btn" on:click={onPrev} disabled={currentIdx <= 0} title="이전 프로젝트 (↑)">▲</button>
+    <span class="nav-label">{currentIdx + 1} / {allPages.length}</span>
+    <button class="nav-btn" on:click={onNext} disabled={currentIdx >= allPages.length - 1} title="다음 프로젝트 (↓)">▼</button>
+  </div>
   </div>
   <div style="width: 500px;">
     <ul class="list">
@@ -225,5 +252,44 @@
 }
 .proj-name.selected::before {
   color: pink;
+}
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 12px 0 0;
+}
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 1.5px solid rgb(110, 110, 110);
+  color: rgb(210, 210, 210);
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+}
+.nav-btn:hover:not(:disabled) {
+  border-color: pink;
+  color: pink;
+  background-color: rgba(255, 182, 193, 0.08);
+}
+.nav-btn:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+.nav-label {
+  font-size: 0.85rem;
+  color: rgb(160, 160, 160);
+  min-width: 50px;
+  text-align: center;
+  font-family: KoHo, sans-serif;
 }
 </style>

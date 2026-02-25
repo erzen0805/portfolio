@@ -25,7 +25,7 @@
     <p class="contents-normal">
       개발자로 시작하여 FE팀장, 프로젝트 팀장으로 역할을 확대하며 전체 시스템을 리딩하였습니다.
     </p>
-    <span class="contents-strong">신규프로젝트·운영 | 배치서버, FE 개발 → 전체 팀 리딩</span>
+    <span class="contents-strong">신규프로젝트·운영 | 배치서버, FE 개발 → 프로젝트 리딩</span>
   </div>
   <h4 class="title">수행 업무</h4>
   <div class="content">
