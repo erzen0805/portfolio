@@ -70,7 +70,7 @@
 
 <main class="container" style={stylish} use:inview={viewCondition} on:change={onViewChange}>
   <h2 style="display: none;">Career</h2>
-  <div style="width: calc(100% - 500px); margin-bottom: 50px;">
+  <div class="left-col">
   {#if isInView}
     <div class="contents" in:fly={{ y: 200, duration: 1000 }}>
       {#if viewPage === 12}
@@ -141,23 +141,28 @@
 <style>
 .container {
   display: flex;
+  align-items: stretch;
+  height: 100vh;
+  padding: 40px 0;
   font-family: KoHo;
   font-size: 1.25rem;
   font-weight: 700;
   color: rgb(146, 146, 146);
 }
+.left-col {
+  width: calc(100% - 500px);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+}
 .contents {
   width: 100%;
   background-color: rgb(43, 44, 42);
   border-radius: 25px;
-  height: 80vh;
+  flex: 1;
+  min-height: 500px;
   box-shadow: rgb(0, 0, 0) 0px 0px 20px inset;
   overflow-y: auto;
-}
-@media (max-height: 500px) {
-  .contents {
-    height: 500px;
-  }
 }
 .list {
   padding: 30px;
