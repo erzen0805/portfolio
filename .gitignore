@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# ETC
+/20260201_BIX
+/.claude
+이력서_20260201.md

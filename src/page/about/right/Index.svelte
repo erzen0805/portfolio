@@ -1,7 +1,6 @@
 <script>
   import Languages from './Languages.svelte';
   import WebFE from './WebFE.svelte';
-  import CollaborationTools from './CollaborationTools.svelte';
   import ETC from './ETC.svelte';
 
   let viewPage = 0;
@@ -13,10 +12,9 @@
 <section class="container">
   <div class="category">
     <ul>
-      <li class:selected={viewPage===0} on:click|preventDefault={()=>onChangePage(0)}>- Languages</li>
-      <li class:selected={viewPage===1} on:click|preventDefault={()=>onChangePage(1)}>- Web FE</li>
-      <li class:selected={viewPage===2} on:click|preventDefault={()=>onChangePage(2)}>- Collaboration Tools</li>
-      <li class:selected={viewPage===3} on:click|preventDefault={()=>onChangePage(3)}>- ETC</li>
+      <li class:selected={viewPage===0} on:click|preventDefault={()=>onChangePage(0)}>- 언어 & 프레임워크</li>
+      <li class:selected={viewPage===1} on:click|preventDefault={()=>onChangePage(1)}>- 웹 프론트엔드</li>
+      <li class:selected={viewPage===2} on:click|preventDefault={()=>onChangePage(2)}>- 인프라 / 협업</li>
     </ul>
   </div>
   <div class="contents-parent">
@@ -26,8 +24,6 @@
       {:else if viewPage === 1}
       <WebFE />
       {:else if viewPage === 2}
-      <CollaborationTools />
-      {:else}
       <ETC />
       {/if}
     </div>
